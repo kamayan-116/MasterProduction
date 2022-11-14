@@ -9,6 +9,8 @@ public class UICtrl : MonoBehaviour
     [SerializeField] private Text uiText;
     [SerializeField] private Button playButton;
     [SerializeField] private Text buttonText;
+    [SerializeField] private AnimationCtrl player1AnimCtrl;
+    [SerializeField] private AnimationCtrl player2AnimCtrl;
 
 
     // Start is called before the first frame update
@@ -25,17 +27,33 @@ public class UICtrl : MonoBehaviour
         
     }
 
+    // Buttonのクリックにより呼ばれる
     public void PlayStart()
     {
-        uiText.text = "のこった";
-        StartCoroutine("UIFalse");
+        if(buttonText.text == "Play")
+        {
+            uiText.text = "のこった";
+            StartCoroutine("UIFalse");
+        }
+        else if(buttonText.text == "Replay")
+        {
+            uiText.text = "はっけよい";
+            buttonText.text = "Play";
+            player1AnimCtrl.EndureInitialize();
+            player1AnimCtrl.SliderInitialize();
+            player1AnimCtrl.AnimationInitialize();
+            player2AnimCtrl.EndureInitialize();
+            player2AnimCtrl.SliderInitialize();
+            player2AnimCtrl.AnimationInitialize();
+        }
     }
 
+    // 勝敗が決まると呼ばれる
     public void PlayEnd(string name)
     {
+        this.gameObject.SetActive(true);
         uiText.text = name + "の負け";
         buttonText.text = "Replay";
-        this.gameObject.SetActive(true);
     }
 
     private IEnumerator UIFalse()

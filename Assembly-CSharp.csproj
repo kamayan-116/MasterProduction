@@ -36,13 +36,21 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\Avator2Ctrl.cs" />
+     <Compile Include="Assets\Script\ColliderVisualizer.cs" />
+     <Compile Include="Assets\Script\CameraCtrl.cs" />
      <Compile Include="Assets\Script\SliderCtrl.cs" />
+     <Compile Include="Assets\Script\AvatorCtrl.cs" />
+     <Compile Include="Assets\Script\EndureSliderCtrl.cs" />
+     <Compile Include="Assets\Script\InitializeCtrl.cs" />
      <Compile Include="Assets\Script\GameCtrl.cs" />
+     <Compile Include="Assets\Script\EnemyCtrl.cs" />
+     <Compile Include="Assets\Script\AnimationCtrl.cs" />
      <Compile Include="Assets\Script\EnemySample.cs" />
      <Compile Include="Assets\Script\UICtrl.cs" />
+     <Compile Include="Assets\Script\SliderInitialize.cs" />
      <Compile Include="Assets\Script\MoveCtrl.cs" />
-     <Compile Include="Assets\Script\PlayerCtrl.cs" />
-     <Compile Include="Assets\Script\EnemyCtrl.cs" />
+     <Compile Include="Assets\Script\EndureCtrl.cs" />
      <Compile Include="Assets\Script\PlayerSample.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.5f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

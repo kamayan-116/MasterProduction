@@ -1,70 +1,112 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyCtrl : MonoBehaviour
 {
-    enum AIState
-    {
-        Go,
-        Push,
-        Nothing,
-    };
-
-
-    NavMeshAgent navMeshAgent;
-    [SerializeField] Transform Player;
-    AIState currentState = AIState.Nothing;
-    float distance;
-    public float pushPower = 2.0f;
-    bool isPush = false;
+    [SerializeField] private AnimationCtrl animationCtrl;
+    [SerializeField] private SliderCtrl sliderCtrl;
+    private int iProbabNum;
+    [SerializeField] private float fTime;
+    [SerializeField] private float interval;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        iProbabNum = Random.Range(1, 100);
     }
 
     // Update is called once per frame
     void Update()
     {
-        distance = Vector3.Distance(this.transform.position, Player.transform.position);
+        fTime += Time.deltaTime;
 
-        if(distance > 1.0f)
+        if(fTime > interval)
         {
-            currentState = AIState.Go;
+            iProbabNum = Random.Range(1, 100);
+            Action(iProbabNum);
+            fTime = 0;
+        }
+
+        if(iProbabNum <= 30)
+        {
+            sliderCtrl.IncSlider();
         }
         else
         {
-            currentState = AIState.Push;
+            sliderCtrl.DecSlider();
         }
-
-        if(currentState == AIState.Go)
-        {
-            // navMeshAgent.SetDestination(Player.position);
-            navMeshAgent.destination = Player.transform.position;
-        }
-
-        if(currentState == AIState.Push)
-        {
-            isPush = true;
-        }
-        
-        Debug.Log(currentState);
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    private void Action(int iNum)
     {
-        if(isPush)
+        if(iNum <= 20)
         {
-            Rigidbody rb = hit.collider.attachedRigidbody;
+            StartCoroutine("MoveLeft");
+        }
+        else if(iNum <= 40)
+        {
+            StartCoroutine("MoveRight");
+        }
+        else if(iNum <= 60)
+        {
+            StartCoroutine("MoveUp");
+        }
+        else if(iNum <= 80)
+        {
+            StartCoroutine("MoveDown");
+        }
+        else
+        {
+            StartCoroutine("Push");
+        }
 
-            if(rb == null || rb.isKinematic) return;
+        // Debug.Log(iNum);
+    }
 
-            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+    private IEnumerator MoveLeft()
+    {
+        animationCtrl.LeftStart();
+        yield return new WaitForSeconds(0.5f);
+        animationCtrl.LeftBack();
+    }
 
-            rb.velocity = pushDir * pushPower;
-        }   
+    private IEnumerator MoveRight()
+    {
+        animationCtrl.RightStart();
+        yield return new WaitForSeconds(0.5f);
+        animationCtrl.RightBack();
+    }
+
+    private IEnumerator MoveUp()
+    {
+        animationCtrl.UpStart();
+        yield return new WaitForSeconds(0.5f);
+        animationCtrl.UpBack();
+    }
+
+    private IEnumerator MoveDown()
+    {
+        animationCtrl.DownStart();
+        yield return new WaitForSeconds(0.5f);
+        animationCtrl.DownBack();
+    }
+
+    private IEnumerator Push()
+    {
+        animationCtrl.PushStart();
+        sliderCtrl.GoPush();
+        yield return new WaitForSeconds(1f);
+        //animationCtrl.PushBack();
+    }
+
+    public void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            animationCtrl.PinchBack();
+            sliderCtrl.CollisionPush();
+        }
     }
 }

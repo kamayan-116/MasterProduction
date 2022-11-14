@@ -92,7 +92,7 @@ public class EnemySample : MonoBehaviour
         }
         else if(iProbabNum <= 65)
         {
-            sliderCtrl.GoPush();
+            // sliderCtrl.GoPush();
         }
 
         // Debug.Log(iNum);

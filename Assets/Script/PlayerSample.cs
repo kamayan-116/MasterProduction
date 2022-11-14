@@ -65,7 +65,7 @@ public class PlayerSample : MonoBehaviour
 
         if(Input.GetMouseButtonDown(1))
         {
-            sliderCtrl.GoPush();
+            // sliderCtrl.GoPush();
         }
     }
 }
